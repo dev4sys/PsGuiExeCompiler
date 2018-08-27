@@ -1,32 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"  
-   Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" /> 
+
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"  
+  Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" /> 
   
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <!-- <ProjectGuid>{A5FA7CCE-D581-4F67-B565-683F5411C0D4}</ProjectGuid> -->
     <OutputType>WinExe</OutputType>
     <RootNamespace>Starter</RootNamespace>
     <AssemblyName>Starter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-<!-- <TargetFrameworkProfile>Client</TargetFrameworkProfile>  -->
-    <!-- <FileAlignment>512</FileAlignment> -->
-    <!-- <IsWebBootstrapper>false</IsWebBootstrapper> -->
-    <!-- <Install>true</Install> -->
-    <!-- <InstallFrom>Disk</InstallFrom> -->
     <UpdateEnabled>false</UpdateEnabled>
-    <!-- <UpdateMode>Foreground</UpdateMode> -->
-    <!-- <UpdateInterval>7</UpdateInterval> -->
-    <!-- <UpdateIntervalUnits>Days</UpdateIntervalUnits> -->
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
-    <!-- <MapFileExtensions>true</MapFileExtensions> -->
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.1</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
-	<BootstrapperEnabled>true</BootstrapperEnabled>
+	  <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -51,10 +42,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-	<Reference Include="System.Windows" />
+	  <Reference Include="System.Windows" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Xml" />
-	<Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+	  <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\WindowsPowerShell\3.0\System.Management.Automation.dll</HintPath>
     </Reference>
@@ -62,11 +53,12 @@
   
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <!-- <Compile Include="Properties\AssemblyInfo.cs" /> -->
   </ItemGroup>
+  
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>
@@ -74,9 +66,10 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  
   <ItemGroup>
-	<EmbeddedResource Include="Resources\form.ps1" />
-	<EmbeddedResource Include="Resources\form.xaml" />
+	  <EmbeddedResource Include="Resources\form.ps1" />
+	  <EmbeddedResource Include="Resources\form.xaml" />
   </ItemGroup>
   
   <ItemGroup>

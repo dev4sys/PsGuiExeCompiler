@@ -16,7 +16,7 @@ namespace starter
     {
 
         // Static attributes
-        private static string _toolName = "Tool";
+        private static string _toolName = "%toolName%";
         private static string _namespaceName = "";
 
         // Static Methods
@@ -188,7 +188,7 @@ namespace starter
             CreateStructureFile(res);
 
             // Launch the PowerShell script
-            BeginProcess("form.ps1");
+            BeginProcess("%mainScript.ps1%");
 
         }
     }
