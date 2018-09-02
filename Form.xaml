@@ -1,0 +1,205 @@
+﻿<controls:MetroWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:dev4sys.Tree;assembly=dev4sys.Tree" 
+		xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		Name="EXE_BUILDER" WindowStyle="None" AllowsTransparency="True"  
+		MaxWidth="900" MaxHeight="600"
+		WindowStartupLocation="CenterScreen" >  
+
+	<Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="resources\Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+			<!-- override border shown onclick or hover textbox -->
+			<Style x:Key="CustomStyle" TargetType="TextBox">
+			   <Style.Triggers>
+				<Trigger Property="IsFocused" Value="True">
+				 <Setter Property="Background" Value="#E0E0E0" />
+				</Trigger>
+			   </Style.Triggers>
+			  </Style>
+		</ResourceDictionary>
+    </Window.Resources>	
+	
+	<Grid>
+
+        <Grid.Resources>
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuIconItem}">
+                <Grid Height="48">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+					<ContentControl Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+					   <Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<Rectangle.Fill>
+								<VisualBrush Stretch="Fill" Visual="{Binding Icon}" />
+							</Rectangle.Fill>
+						</Rectangle>
+					</ContentControl>
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Foreground="White"
+                               Text="{Binding Label}" />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        			
+		<Grid >
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="64" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+
+			<Border Grid.Row="0" Background="#FF444444">
+			</Border>
+			
+			<Grid Grid.Row="1">
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="250" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+			
+				<Grid Grid.Column="0" Background="#3D3D3D">
+					
+					
+					<Grid>
+						
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition Height="80"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  >
+							
+							<StackPanel Margin="10,10,10,10"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#1BA1E2 ">
+								<Label Content=" Project Files " Foreground="White" Height = "30" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+								<StackPanel x:Name="ProjectSources" Margin="0,0,0,0" Orientation="Vertical"  Background="#FFFFFF" >
+									<ScrollViewer Height="300">
+									<!-- The treeview will be used to list all the files of the project -->
+									<TreeView x:Name="TreeView" HorizontalAlignment="Left" 
+										Margin="10,20,10,20" Width="200" >
+										<TreeView.Resources>
+											<Style TargetType="{x:Type TreeViewItem}">
+												<Setter Property="HeaderTemplate">
+													<Setter.Value>
+														<HierarchicalDataTemplate  >
+																<StackPanel Orientation="Horizontal">
+																<Image  Width="25" Height="25" Stretch="Fill"  
+																Source= "{Binding 
+																RelativeSource={RelativeSource 
+																Mode=FindAncestor, 
+																AncestorType={x:Type TreeViewItem}}, 
+																Path=Tag, 
+																Converter={sys:ObjectTagToImageConverter}}"      
+																/> 
+																<TextBlock Text="{Binding}" 
+																Margin="5,5" />
+															</StackPanel>
+														</HierarchicalDataTemplate >
+													</Setter.Value>
+												</Setter>
+											</Style>
+										</TreeView.Resources> 
+									</TreeView>
+									</ScrollViewer>
+								</StackPanel>
+							</StackPanel>
+									
+						</StackPanel>
+
+						<StackPanel Grid.Row="1" Orientation="Vertical" Margin="10,10,10,20" VerticalAlignment="Bottom">
+							<GridSplitter HorizontalAlignment="Stretch" Foreground="LightSkyBlue" Height="1" Margin="0,0,0,5" VerticalAlignment="Top"/>
+							<StackPanel Orientation="Horizontal">
+								<Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+									<Rectangle.Fill>
+										<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_barcode}" />
+									</Rectangle.Fill>
+								</Rectangle>
+								<Label Content=" Copyright © 2018 " Foreground="White" Height = "30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+							</StackPanel>
+						</StackPanel>
+						
+					</Grid> 
+				</Grid>
+			
+				<Grid Grid.Column="1">
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition Height="100" />
+					</Grid.RowDefinitions>
+
+					<controls:HamburgerMenu Grid.Row="0" 
+							x:Name="HamburgerMenuControl"
+							Foreground="White"
+							PaneBackground="#FF444444"
+							IsPaneOpen="False"
+							ItemTemplate="{StaticResource MenuItemTemplate}"
+							DisplayMode="CompactInline"
+							>
+						
+						<!--  Items  -->
+						<controls:HamburgerMenu.ItemsSource>
+						
+							<controls:HamburgerMenuItemCollection>
+								<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_people_status }"
+																Label="Configuration">
+									<controls:HamburgerMenuIconItem.Tag>
+										<Grid x:Name="ConfigurationView"></Grid>
+									</controls:HamburgerMenuIconItem.Tag>
+								</controls:HamburgerMenuIconItem>
+								
+								<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_monitor}"
+																Label="Advanced">
+									<controls:HamburgerMenuIconItem.Tag>
+										<Grid x:Name="AdvancedView"></Grid>
+									</controls:HamburgerMenuIconItem.Tag>
+								</controls:HamburgerMenuIconItem>
+
+								<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_graph_line}"
+																Label="Version">
+									<controls:HamburgerMenuIconItem.Tag>
+										<Grid x:Name="VersioningView"></Grid>
+									</controls:HamburgerMenuIconItem.Tag>
+								</controls:HamburgerMenuIconItem>
+
+							</controls:HamburgerMenuItemCollection>
+							
+						</controls:HamburgerMenu.ItemsSource>
+
+						<!--  Content  -->
+						<controls:HamburgerMenu.ContentTemplate>
+							<DataTemplate DataType="{x:Type controls:HamburgerMenuItem}">
+								<Grid x:Name="TheContentGrid">
+									<ContentControl x:Name="TheContent"
+										Focusable="False"
+										Foreground="{DynamicResource BlackBrush}"
+										Content="{Binding Tag}" />
+								</Grid>
+							</DataTemplate>
+						</controls:HamburgerMenu.ContentTemplate>
+
+					</controls:HamburgerMenu>
+
+					<Grid Grid.Row="1">
+						<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="DarkCyan" ></StackPanel>
+					</Grid>
+				</Grid>
+
+			</Grid>
+
+		</Grid>
+    
+	</Grid>
+	
+</controls:MetroWindow>
