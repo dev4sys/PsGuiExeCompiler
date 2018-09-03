@@ -63,7 +63,6 @@
     <EmbeddedResource Include="Resources\images\file.png" />
     <EmbeddedResource Include="Resources\images\folder.png" />
     <EmbeddedResource Include="Resources\images\folderOp.png" />
-    <EmbeddedResource Include="Resources\images\Thumbs.db" />
     <EmbeddedResource Include="Resources\views\folder1\dummyFile0.txt" />
     <EmbeddedResource Include="Resources\views\folder1\dummyFile1.ps1" />
     <EmbeddedResource Include="Resources\views\folder1\dummyFile2.txt" />

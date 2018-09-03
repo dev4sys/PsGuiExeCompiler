@@ -12,9 +12,19 @@
 			<StackPanel Margin="5,15,5,5" Orientation="Vertical">
 				<GroupBox Header="User's informations" Margin="0,0,0,0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#1BA1E2 ">
 					<StackPanel  Orientation="Vertical" HorizontalAlignment="Stretch" Height="150" >
-					
-					
 
+						<Label Content="Basic options of the exe"></Label>
+
+						<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+							<Label Content="EXE NAME:" Width="120"/>
+							<TextBox x:Name="txtBoxExeName" Width="200" Text="" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+							<Label Content="OUTPUT PATH:" Width="120"/>
+							<TextBox x:Name="txtBoxPath" Width="200" Text="" />
+							<Button x:Name="btnOutputPath" Content="Browse" Width="100" Margin="5,0,0,0"/>
+						</StackPanel>
 
 					</StackPanel>
 				</GroupBox>

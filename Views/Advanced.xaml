@@ -6,7 +6,7 @@
 	<Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="..\resources\Icons.xaml" />
+				<ResourceDictionary Source="..\Images\Resources\Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>	
@@ -17,7 +17,20 @@
         <StackPanel Margin="5,15,5,5" Orientation="Vertical">
             <GroupBox Header="Advanced Options" Margin="0,0,0,0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#1BA1E2 ">
                 <StackPanel  Orientation="Vertical" HorizontalAlignment="Stretch" Height="150" >
-                
+
+                    <Label Content="Advanced operation such as execution folder and security to enable script obfuscation."> </Label>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="EXECUTION PATH:" Width="120"/>
+                        <TextBox x:Name="txtBoxPath" Text="USER/TEMP" Width="200" />
+                        <Button x:Name="btnOutputPath" Content="Browse" Width="100" Margin="5,0,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <!-- Main Script obfuscation option-->
+                    </StackPanel>
+
+
                 </StackPanel>
             </GroupBox>
         </StackPanel>

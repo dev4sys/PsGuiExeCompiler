@@ -6,7 +6,7 @@
 	<Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="..\resources\Icons.xaml" />
+				<ResourceDictionary Source="..\Images\Resources\Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Grid.Resources>	
@@ -18,6 +18,19 @@
             <GroupBox Header="Version" Margin="0,0,0,0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#1BA1E2 ">
                 <StackPanel  Orientation="Vertical" HorizontalAlignment="Stretch" Height="150" >
                 
+					<!-- Release information -->
+
+					<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+						<Label Content="VERSION:" Width="120"/>
+						<TextBox x:Name="txtExeVersion" Width="200" Text="0.0.0" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+						<Label Content="COMPANY:" Width="120"/>
+						<TextBox x:Name="txtBoxCompany" Width="200" Text="" />
+					</StackPanel>
+
+
                 </StackPanel>
             </GroupBox>
 

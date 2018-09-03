@@ -4,13 +4,13 @@
         xmlns:sys="clr-namespace:dev4sys.Tree;assembly=dev4sys.Tree" 
 		xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		Name="EXE_BUILDER" WindowStyle="None" AllowsTransparency="True"  
-		MaxWidth="900" MaxHeight="600"
+		MinWidth="900" MinHeight="700"
 		WindowStartupLocation="CenterScreen" >  
 
 	<Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="resources\Icons.xaml" />
+				<ResourceDictionary Source="Images\Resources\Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
@@ -136,7 +136,7 @@
 				<Grid Grid.Column="1">
 					<Grid.RowDefinitions>
 						<RowDefinition />
-						<RowDefinition Height="100" />
+						<RowDefinition Height="200" />
 					</Grid.RowDefinitions>
 
 					<controls:HamburgerMenu Grid.Row="0" 

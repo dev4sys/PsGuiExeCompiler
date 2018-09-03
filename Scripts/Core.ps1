@@ -100,8 +100,8 @@ Function GenerateProgramCs(){
 
     if($canProceed)
     {
-        # Open a replace elements in the code from template
-        $ProgramCSharp      = Get-content ".\Template\Program.cs"
+        # Open and replace elements in the code from template
+        $ProgramCSharp      = Get-content ".\Tools\Template\Program.cs"
         $TempProgramCSharp  = $ProgramCSharp.Replace("%toolName%",$toolName)
         $ProgramCSharp      = $TempProgramCSharp.Replace("%mainScript.ps1%",$mainScript)
 
@@ -147,7 +147,7 @@ Function GenerateCSprojectFile(){
     {
 
         $XmlDoc = [System.Xml.XmlDocument]::new()
-        $XmlDoc.load(".\Template\starter.csproj")
+        $XmlDoc.load(".\Tools\Template\starter.csproj")
 
         # === Icon for the application ================================================================
         $XmlDoc.Project.PropertyGroup[2].ApplicationIcon = "Tool.icon"
@@ -180,7 +180,7 @@ Function GenerateProjectStructure(){
     Try{
         New-Item -path ".\Project" -name "bin" -type directory -ErrorAction Stop | Out-null
         New-Item -path ".\Project" -name "obj" -type directory -ErrorAction Stop | Out-null
-        Copy-Item -Path ".\Template\App.config" -Destination ".\Project\App.config"
+        Copy-Item -Path ".\Tools\Template\App.config" -Destination ".\Project\App.config"
     }
     Catch {
         Write-Host "An error occured while genrating project structure."
