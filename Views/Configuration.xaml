@@ -26,6 +26,12 @@
 							<Button x:Name="btnOutputPath" Content="Browse" Width="100" Margin="5,0,0,0"/>
 						</StackPanel>
 
+
+						<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+							<Label Content="SINGLE INSTANCE:" Width="120"/>
+							<TextBox x:Name="SingleInstance" Width="200" Text="" />
+						</StackPanel>
+
 					</StackPanel>
 				</GroupBox>
 			</StackPanel>

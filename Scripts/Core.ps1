@@ -4,6 +4,7 @@
 ##############################
 
 
+
 Function Main(){
     
     Param(
@@ -18,10 +19,10 @@ Function Main(){
     Write-Host "Starting process for $exeName  ... "
     Write-Host "Using as main script: $mainScript" 
 
-    GenerateProjectStructure
-    $retVal = GenerateDirectoryInf -resourcesDirectory "$projectDirectory\Project\Resources"
-    GenerateProgramCs -toolName $exeName -mainScript $mainScript
-    GenerateCSprojectFile
+    GenerateProjectStructure -CurrentProjectFolder $projectDirectory
+    $retVal = GenerateDirectoryInf -CurrentProjectFolder $projectDirectory
+    GenerateProgramCs -toolName $exeName -mainScript $mainScript -CurrentProjectFolder $projectDirectory
+    GenerateCSprojectFile -CurrentProjectFolder $projectDirectory
 
     If(!$retVal){
         Write-Host "An error ocurred while processing your application files."
@@ -63,17 +64,19 @@ Function GenerateDirectoryInf(){
     # It will be used to recreate the souce structure form emmbeded resources. 
     # =========================================================================
     Param(
-        [String]$resourcesDirectory
+        [String]$CurrentProjectFolder        
     )
     
     $iRet = $true
+    $resourcesDirectory = "$CurrentProjectFolder\Resources"
     # extension to be exclude in the project for later ...
     $filter = ""
 
     Try{
+        Write-Host "Project directory info out: $CurrentProjectFolder\directory.inf"
         $FileLIst = Get-ChildItem -Path $resourcesDirectory -file -recurse -ErrorAction SilentlyContinue | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
         $RelativePathList = $FileLIst.Replace("$resourcesDirectory","")
-        $RelativePathList | Out-File "$resourcesDirectory\directory.inf"
+        $RelativePathList | Out-File "$CurrentProjectFolder\directory.inf"
     }
     Catch{
         $iRet = $False
@@ -91,7 +94,8 @@ Function GenerateProgramCs(){
 
     Param(
         [String]$toolName,
-        [String]$mainScript
+        [String]$mainScript,
+        [string]$CurrentProjectFolder
     )
 
     # %mainScript.ps1%
@@ -106,7 +110,7 @@ Function GenerateProgramCs(){
         $ProgramCSharp      = $TempProgramCSharp.Replace("%mainScript.ps1%",$mainScript)
 
         # Export result to the current project folder
-        $ProgramCSharp  | Set-Content ".\Project\Program.cs"
+        $ProgramCSharp  | Set-Content "$CurrentProjectFolder\Program.cs"
         $TempProgramCSharp = $null
         
     }
@@ -119,7 +123,8 @@ Function GenerateProgramCs(){
 
 Function GenerateCSprojectFile(){
     Param(
-        [String]$iconPath
+        [String]$iconPath,
+        [string]$CurrentProjectFolder
     )
 
     If([string]::IsNullOrEmpty($iconPath)){
@@ -131,7 +136,7 @@ Function GenerateCSprojectFile(){
         # we use the con provided by the user
     }
 
-    $directoryInfProject = ".\Project\Resources\directory.inf"
+    $directoryInfProject = "$CurrentProjectFolder\directory.inf"
     If(Test-path($directoryInfProject)){
         Write-Host "Found the project structure. Contructing C# project file ..."
         $ResourceFiles = Get-Content $directoryInfProject
@@ -150,7 +155,7 @@ Function GenerateCSprojectFile(){
         $XmlDoc.load(".\Tools\Template\starter.csproj")
 
         # === Icon for the application ================================================================
-        $XmlDoc.Project.PropertyGroup[2].ApplicationIcon = "Tool.icon"
+        $XmlDoc.Project.PropertyGroup[2].ApplicationIcon = "Tool.ico"
         $XmlDoc.Project.ItemGroup[6].Content.Include = "Tool.ico"
 
         # === Embbeded resources ======================================================================
@@ -170,20 +175,29 @@ Function GenerateCSprojectFile(){
             }
         }
 
-        $XmlDoc.Save(".\Project\starter.csproj")
+        $XmlDoc.Save("$CurrentProjectFolder\starter.csproj")
 
     }
 
 }
 
 Function GenerateProjectStructure(){
+
+    Param(
+        [string]$CurrentProjectFolder
+    )
+
     Try{
-        New-Item -path ".\Project" -name "bin" -type directory -ErrorAction Stop | Out-null
-        New-Item -path ".\Project" -name "obj" -type directory -ErrorAction Stop | Out-null
-        Copy-Item -Path ".\Tools\Template\App.config" -Destination ".\Project\App.config"
+        If (!(Test-Path -Path "$CurrentProjectFolder\bin")){
+            # suppose that if bin already exists do not create teh folder
+            New-Item -path "$CurrentProjectFolder" -name "bin" -type directory -ErrorAction Stop | Out-null
+            New-Item -path "$CurrentProjectFolder" -name "obj" -type directory -ErrorAction Stop | Out-null
+        }
+        Copy-Item -Path ".\Tools\Template\App.config" -Destination "$CurrentProjectFolder\App.config"
+        Write-Host "Successfully generated project structure."
     }
     Catch {
-        Write-Host "An error occured while genrating project structure."
+        Write-Host "An error occured while generating project structure. $($_.Exception.Message)"
     }
 }
 

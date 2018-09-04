@@ -134,64 +134,68 @@
 				</Grid>
 			
 				<Grid Grid.Column="1">
+
 					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition Height="200" />
-					</Grid.RowDefinitions>
-
-					<controls:HamburgerMenu Grid.Row="0" 
-							x:Name="HamburgerMenuControl"
-							Foreground="White"
-							PaneBackground="#FF444444"
-							IsPaneOpen="False"
-							ItemTemplate="{StaticResource MenuItemTemplate}"
-							DisplayMode="CompactInline"
-							>
-						
-						<!--  Items  -->
-						<controls:HamburgerMenu.ItemsSource>
-						
-							<controls:HamburgerMenuItemCollection>
-								<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_people_status }"
-																Label="Configuration">
-									<controls:HamburgerMenuIconItem.Tag>
-										<Grid x:Name="ConfigurationView"></Grid>
-									</controls:HamburgerMenuIconItem.Tag>
-								</controls:HamburgerMenuIconItem>
-								
-								<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_monitor}"
-																Label="Advanced">
-									<controls:HamburgerMenuIconItem.Tag>
-										<Grid x:Name="AdvancedView"></Grid>
-									</controls:HamburgerMenuIconItem.Tag>
-								</controls:HamburgerMenuIconItem>
-
-								<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_graph_line}"
-																Label="Version">
-									<controls:HamburgerMenuIconItem.Tag>
-										<Grid x:Name="VersioningView"></Grid>
-									</controls:HamburgerMenuIconItem.Tag>
-								</controls:HamburgerMenuIconItem>
-
-							</controls:HamburgerMenuItemCollection>
+                        <RowDefinition Height="400"/>
+                         <RowDefinition Height="5"/> 
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+					
+					<Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+						<controls:HamburgerMenu 
+								x:Name="HamburgerMenuControl"
+								Foreground="White"
+								PaneBackground="#FF444444"
+								IsPaneOpen="False"
+								ItemTemplate="{StaticResource MenuItemTemplate}"
+								DisplayMode="CompactInline"
+								>
 							
-						</controls:HamburgerMenu.ItemsSource>
+							<!--  Items  -->
+							<controls:HamburgerMenu.ItemsSource>
+							
+								<controls:HamburgerMenuItemCollection>
+									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_people_status }"
+																	Label="Configuration">
+										<controls:HamburgerMenuIconItem.Tag>
+											<Grid x:Name="ConfigurationView"></Grid>
+										</controls:HamburgerMenuIconItem.Tag>
+									</controls:HamburgerMenuIconItem>
+									
+									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_monitor}"
+																	Label="Advanced">
+										<controls:HamburgerMenuIconItem.Tag>
+											<Grid x:Name="AdvancedView"></Grid>
+										</controls:HamburgerMenuIconItem.Tag>
+									</controls:HamburgerMenuIconItem>
 
-						<!--  Content  -->
-						<controls:HamburgerMenu.ContentTemplate>
-							<DataTemplate DataType="{x:Type controls:HamburgerMenuItem}">
-								<Grid x:Name="TheContentGrid">
-									<ContentControl x:Name="TheContent"
-										Focusable="False"
-										Foreground="{DynamicResource BlackBrush}"
-										Content="{Binding Tag}" />
-								</Grid>
-							</DataTemplate>
-						</controls:HamburgerMenu.ContentTemplate>
+									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_graph_line}"
+																	Label="Version">
+										<controls:HamburgerMenuIconItem.Tag>
+											<Grid x:Name="VersioningView"></Grid>
+										</controls:HamburgerMenuIconItem.Tag>
+									</controls:HamburgerMenuIconItem>
 
-					</controls:HamburgerMenu>
+								</controls:HamburgerMenuItemCollection>
+								
+							</controls:HamburgerMenu.ItemsSource>
 
-					<Grid Grid.Row="1">
+							<!--  Content  -->
+							<controls:HamburgerMenu.ContentTemplate>
+								<DataTemplate DataType="{x:Type controls:HamburgerMenuItem}">
+									<Grid x:Name="TheContentGrid">
+										<ContentControl x:Name="TheContent"
+											Focusable="False"
+											Foreground="{DynamicResource BlackBrush}"
+											Content="{Binding Tag}" />
+									</Grid>
+								</DataTemplate>
+							</controls:HamburgerMenu.ContentTemplate>
+
+						</controls:HamburgerMenu>
+					</Grid>
+                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FFBCBCBC"/>
+					<Grid Grid.Row="2">
 						<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="DarkCyan" ></StackPanel>
 					</Grid>
 				</Grid>

@@ -73,7 +73,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <EmbeddedResource Include="Resources\directory.inf" />
+    <EmbeddedResource Include="directory.inf" />
   </ItemGroup>
   
   <ItemGroup>

@@ -116,7 +116,7 @@ namespace starter
         private static String[] GetFilesStructure() {
     
             // this file should always be there to retrieve the hierarchy of the folder.
-            string directoryStruct = _namespaceName + ".Resources.directory.inf";
+            string directoryStruct = _namespaceName + ".directory.inf";
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(directoryStruct);
 
             StreamReader streamReader = new StreamReader(stream);
