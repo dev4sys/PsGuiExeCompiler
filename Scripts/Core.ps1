@@ -11,6 +11,7 @@ Function Main(){
         [String]$exeName,
         [String]$mainScript,
         [String]$outPutPath,
+        [bool]$singleInstance,
         [String]$projectDirectory
     )
 
@@ -21,7 +22,7 @@ Function Main(){
 
     GenerateProjectStructure -CurrentProjectFolder $projectDirectory
     $retVal = GenerateDirectoryInf -CurrentProjectFolder $projectDirectory
-    GenerateProgramCs -toolName $exeName -mainScript $mainScript -CurrentProjectFolder $projectDirectory
+    GenerateProgramCs -toolName $exeName -mainScript $mainScript -mutex $singleInstance -CurrentProjectFolder $projectDirectory
     GenerateCSprojectFile -CurrentProjectFolder $projectDirectory
 
     If(!$retVal){
@@ -45,12 +46,12 @@ Function Run(){
     {
         "Build" { 
        
-            $cmdLine =  ".\MSBuild\15.0\Bin\MSBuild.exe .\Socle\starter.csproj /target:Build /tv:4.0"
+           # $cmdLine =  ".\MSBuild\15.0\Bin\MSBuild.exe .\Socle\starter.csproj /target:Build /tv:4.0"
        
         }
         "Clean" { 
 
-            $cmdLine =  ".\MSBuild\15.0\Bin\MSBuild.exe .\Socle\starter.csproj /target:Clean"
+           # $cmdLine =  ".\MSBuild\15.0\Bin\MSBuild.exe .\Socle\starter.csproj /target:Clean"
        
         }
     }   
@@ -70,11 +71,11 @@ Function GenerateDirectoryInf(){
     $iRet = $true
     $resourcesDirectory = "$CurrentProjectFolder\Resources"
     # extension to be exclude in the project for later ...
-    $filter = ""
+    # $filter = ""
 
     Try{
         Write-Host "Project directory info out: $CurrentProjectFolder\directory.inf"
-        $FileLIst = Get-ChildItem -Path $resourcesDirectory -file -recurse -ErrorAction SilentlyContinue | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
+        $FileLIst = Get-ChildItem -Path $resourcesDirectory -file -recurse -ErrorAction SilentlyContinue | ForEach-Object { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
         $RelativePathList = $FileLIst.Replace("$resourcesDirectory","")
         $RelativePathList | Out-File "$CurrentProjectFolder\directory.inf"
     }
@@ -95,6 +96,7 @@ Function GenerateProgramCs(){
     Param(
         [String]$toolName,
         [String]$mainScript,
+        [bool]$mutex,
         [string]$CurrentProjectFolder
     )
 
@@ -106,12 +108,15 @@ Function GenerateProgramCs(){
     {
         # Open and replace elements in the code from template
         $ProgramCSharp      = Get-content ".\Tools\Template\Program.cs"
-        $TempProgramCSharp  = $ProgramCSharp.Replace("%toolName%",$toolName)
-        $ProgramCSharp      = $TempProgramCSharp.Replace("%mainScript.ps1%",$mainScript)
+        $TempCSharpName     = $ProgramCSharp.Replace("%toolName%",$toolName)
+        $TempCSharpMutex    = $TempCSharpName.Replace("%mutex%",("$mutex").ToLower())
+        $ProgramCSharp      = $TempCSharpMutex.Replace("%mainScript.ps1%",$mainScript)
+
 
         # Export result to the current project folder
         $ProgramCSharp  | Set-Content "$CurrentProjectFolder\Program.cs"
-        $TempProgramCSharp = $null
+        $TempCSharpMutex    = $null
+        $TempCSharpName     = $null
         
     }
     else

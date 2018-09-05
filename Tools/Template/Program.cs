@@ -15,9 +15,11 @@ namespace starter
     class Program 
     {
 
-        // Static attributes
+        // class attributes
+        private static Mutex _mutex;  // MUTEX
         private static string _toolName = "%toolName%";
         private static string _namespaceName = "";
+        private static bool _singleInstance = %mutex% ;
 
         // Static Methods
         private static string GetResourceNameFromFileName(string fileName) {
@@ -28,29 +30,43 @@ namespace starter
             builder.Replace(" ", "_");
 
             return builder.ToString();
+        }
+
+        private static String[] GetFilesStructure()
+        {
+
+            // this file should always be there to retrieve the hierarchy of the folder.
+            string directoryStruct = _namespaceName + ".directory.inf";
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(directoryStruct);
+
+            StreamReader streamReader = new StreamReader(stream);
+            string result = streamReader.ReadToEnd();
+            String[] res = result.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+
+            // return an array of files of the application.
+            return res;
 
         }
 
-        private static void CreateToolFolder() {
+        private static void CreateToolFolder(string zerosPadding) {
 
             // get the current user Temp path 
             string tempFolder = Path.GetTempPath();
-            string location = tempFolder + _toolName;
+            string location = tempFolder + zerosPadding + _toolName;
 
             if (!Directory.Exists(location))
             {
                 Directory.CreateDirectory(location);
             }
 
-
         }
 
-        private static bool CreateResourceFile(string filename)
+        private static bool CreateResourceFile(string zerosPadding, string filename)
         {
 
             // get the current user Temp path 
             string tempFolder = Path.GetTempPath();
-            string location = tempFolder + _toolName;
+            string location = tempFolder + zerosPadding + _toolName;
             string filepath = location + filename;
 
             // check if the folder does not exist beforehand
@@ -72,7 +88,6 @@ namespace starter
                     //file.Dispose();
                     //file.Close();
                 }
-
             }
             catch {
                 Console.WriteLine("Error occurred");
@@ -81,19 +96,19 @@ namespace starter
 
         }
 
-        private static void CreateStructureFile(string[] rawResourceNames) {
+        private static void CreateStructureFile(string zerosPadding, string[] rawResourceNames) {
 
             bool status = true;
-            // reate resources files at temp folder from th embedded resources.
+            // create resources files at temp folder from th embedded resources.
             if (rawResourceNames != null || rawResourceNames.Length < 1){
 
                 foreach (string lines in rawResourceNames) {
 
                     if (!string.IsNullOrEmpty(lines)) {
 
-                        if (!lines.Contains("directory.inf")) // skip if it's directory.txt file
+                        if (!lines.Contains("directory.inf")) // skip if it's directory.inf file
                         {
-                            bool iRet = CreateResourceFile(lines);
+                            bool iRet = CreateResourceFile(zerosPadding,lines);
                             status = status && iRet;
                         }
 
@@ -113,30 +128,14 @@ namespace starter
 
         }
 
-        private static String[] GetFilesStructure() {
-    
-            // this file should always be there to retrieve the hierarchy of the folder.
-            string directoryStruct = _namespaceName + ".directory.inf";
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(directoryStruct);
-
-            StreamReader streamReader = new StreamReader(stream);
-            string result = streamReader.ReadToEnd();
-            String[] res = result.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-
-            // return an array of files of the application.
-            return res;
-
-
-        }
-
-        public static void BeginProcess(string script) {
+        public static void BeginProcess(string zerosPadding, string script) {
 
             // get the current user Temp path 
             string tempFolder = Path.GetTempPath();
-            string workingDir = tempFolder + _toolName;
-
+            string workingDir = tempFolder + zerosPadding + _toolName;
+            
             string mainScript = workingDir + "\\" + script;
-			string outputConsole = workingDir + "\\log.txt";
+            string outputConsole = workingDir + "\\log.txt";
 
             if (File.Exists(mainScript))
             {
@@ -146,10 +145,10 @@ namespace starter
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.WorkingDirectory = workingDir;
-				process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-				process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.FileName = @"C:\windows\system32\windowspowershell\v1.0\powershell.exe";
-                process.StartInfo.Arguments = "-WindowStyle Hidden -noprofile -executionpolicy bypass \"" + mainScript + "\"";
+                process.StartInfo.Arguments = "-WindowStyle Hidden -noProfile -executionpolicy bypass \"" + mainScript + "\"";
 
                 process.Start();
                 string s = process.StandardOutput.ReadToEnd();
@@ -163,14 +162,19 @@ namespace starter
             }
             else
             {
-				MessageBox.Show("Main script not found!");
+                MessageBox.Show("Main script not found!");
             }
         }
-
+        
+        // Main function
         static void Main(string[] args)
         {
 
             _namespaceName = Assembly.GetExecutingAssembly().GetName().Name;
+
+            // get the list of all processes by that name
+            string procName = Process.GetCurrentProcess().ProcessName;
+            Process[] processes = Process.GetProcessesByName(procName);
 
             // retrieve all list of the Resources to embed
             string[] _resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
@@ -178,18 +182,44 @@ namespace starter
 
             Console.WriteLine(string.Join(Environment.NewLine,Assembly.GetEntryAssembly().GetManifestResourceNames()));
 
-            // create tool folder in  user temp folder
-            CreateToolFolder();
-
             // get the structure of the files to recreate the folders in temp folder
             string[] res = GetFilesStructure();
 
-            // create resource files to be executed.
-            CreateStructureFile(res);
+            bool createdNew;
+            _mutex = new Mutex(true, _toolName, out createdNew);
+            if (_singleInstance)
+            {
+                
+                if (createdNew)
+                {
+                    string zeros = "0000";
+                    // create tool folder in  user temp folder
+                    CreateToolFolder(zeros);
+                    // create resource files to be executed.
+                    CreateStructureFile(zeros,res);
+                    // Launch the powershell script
+                    BeginProcess(zeros,"%mainScript.ps1%");
+                }
+                else
+                {
+                    MessageBox.Show("The application is already running.");
+                }
+            }
+            else
+            {
 
-            // Launch the PowerShell script
-            BeginProcess("%mainScript.ps1%");
+                int occurrence = processes.Length;
+                string zerosPads = String.Format("{0:D4}", occurrence); // return a string 0001
+                // create tool folder in  user temp folder
+                CreateToolFolder(zerosPads);
+                // create resource files to be executed.
+                CreateStructureFile(zerosPads,res);
+                // Launch the powershell script
+                BeginProcess(zerosPads,"%mainScript.ps1%");
+
+            }
 
         }
+
     }
 }
