@@ -23,13 +23,13 @@
                     </TextBlock>
                     
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="EXECUTION PATH:" Width="150"/>
-                        <TextBox x:Name="txtBoxPath" Text="USER/TEMP" Width="200" />
+                        <Label Content="EXECUTION PATH:" Width="130"/>
+                        <TextBox x:Name="txtBoxPath" Controls:TextBoxHelper.Watermark="USER/TEMP" Width="200" />
                         <Button x:Name="btnOutputPath" Content="Browse" Width="100" Margin="5,0,0,0"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="SYSTEM ARCHITECTURE:" Width="150"/>
+                        <Label Content="SYSTEM:" Width="130"/>
                         <ComboBox x:Name="comboArchi" Width="200" >
                             <ComboBoxItem IsSelected="True">x64</ComboBoxItem>
                             <ComboBoxItem>x86</ComboBoxItem>

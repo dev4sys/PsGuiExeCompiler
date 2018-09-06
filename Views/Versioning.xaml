@@ -19,57 +19,19 @@
                 <StackPanel  Orientation="Vertical" HorizontalAlignment="Stretch" Height="150" >
                 
 					<!-- Release information -->
-
 					<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-						<Label Content="VERSION:" Width="150"/>
-						<TextBox x:Name="txtExeVersion" Width="200" Text="0.0.0" />
+						<Label Content="VERSION:" Width="130"/>
+						<TextBox x:Name="VerTxtExeVersion" Width="200" Text="0.0.0" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-						<Label Content="COMPANY:" Width="150"/>
-						<TextBox x:Name="txtBoxCompany" Width="200" Text="" />
+						<Label Content="COMPANY:" Width="130"/>
+						<TextBox x:Name="VerTxtBoxCompany" Width="200" Text="" />
 					</StackPanel>
 
 
                 </StackPanel>
             </GroupBox>
-
-
-			<!-- USER SNIPPETS -->
-			<StackPanel Margin="5,25,5,5" Orientation="Horizontal" >
-				
-				<!-- GROUPS -->
-				<StackPanel Margin="0,0,15,0" Width="250" Background="#FFFFFF" HorizontalAlignment="Stretch"  Orientation="Horizontal">
-					<StackPanel  Background="#2196f3" Height="60" Width="60" Orientation="Vertical">
-						<Rectangle Margin="2,15,0,0" Height="30" Width="34">
-							<Rectangle.Fill>
-								<VisualBrush Visual="{StaticResource appbar_group}" />
-							</Rectangle.Fill>
-						</Rectangle>
-					</StackPanel>
-					<StackPanel Width="190" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
-						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="15"    FontWeight="Bold" Foreground="#676767" FontSize="26"  ></TextBlock>
-						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="GROUPS" Foreground="#676767" FontSize="15"></TextBlock>
-					</StackPanel>
-				</StackPanel>
-				
-				<!-- COMPUTER REGISTERED -->
-				<StackPanel  Margin="0,0,15,0" Width="250" Background="#FFFFFF" HorizontalAlignment="Stretch"  Orientation="Horizontal">
-					<StackPanel  Background="#79c879" Height="60" Width="60" Orientation="Vertical">
-						<Rectangle Margin="2,15,0,0" Height="30" Width="34">
-							<Rectangle.Fill>
-								<VisualBrush Visual="{StaticResource appbar_stock}" />
-							</Rectangle.Fill>
-						</Rectangle>
-					</StackPanel>
-					<StackPanel Width="190" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
-						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="24"    FontWeight="Bold" Foreground="#676767" FontSize="26"  ></TextBlock>
-						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="COMPUTER REGISTERED" Foreground="#676767" FontSize="15"></TextBlock>
-					</StackPanel>
-				</StackPanel>
-				
-			</StackPanel>
-			
 
         </StackPanel>
 		

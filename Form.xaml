@@ -66,79 +66,18 @@
 			<Grid Grid.Row="1">
 
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="250" />
-					<ColumnDefinition />
+					<ColumnDefinition  />
+					<ColumnDefinition Width="250"/>
 				</Grid.ColumnDefinitions>
 			
-				<Grid Grid.Column="0" Background="#3D3D3D">
-					
-					
-					<Grid>
-						
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition Height="80"/>
-						</Grid.RowDefinitions>
 
-						<StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  >
-							
-							<StackPanel Margin="10,10,10,10"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#1BA1E2 ">
-								<Label Content=" Project Files " Foreground="White" Height = "30" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
-								<StackPanel x:Name="ProjectSources" Margin="0,0,0,0" Orientation="Vertical"  Background="#FFFFFF" >
-									<ScrollViewer Height="300">
-									<!-- The treeview will be used to list all the files of the project -->
-									<TreeView x:Name="TreeView" HorizontalAlignment="Left" 
-										Margin="10,20,10,20" Width="200" >
-										<TreeView.Resources>
-											<Style TargetType="{x:Type TreeViewItem}">
-												<Setter Property="HeaderTemplate">
-													<Setter.Value>
-														<HierarchicalDataTemplate  >
-																<StackPanel Orientation="Horizontal">
-																<Image  Width="25" Height="25" Stretch="Fill"  
-																Source= "{Binding 
-																RelativeSource={RelativeSource 
-																Mode=FindAncestor, 
-																AncestorType={x:Type TreeViewItem}}, 
-																Path=Tag, 
-																Converter={sys:ObjectTagToImageConverter}}"      
-																/> 
-																<TextBlock Text="{Binding}" 
-																Margin="5,5" />
-															</StackPanel>
-														</HierarchicalDataTemplate >
-													</Setter.Value>
-												</Setter>
-											</Style>
-										</TreeView.Resources> 
-									</TreeView>
-									</ScrollViewer>
-								</StackPanel>
-							</StackPanel>
-									
-						</StackPanel>
-
-						<StackPanel Grid.Row="1" Orientation="Vertical" Margin="10,10,10,20" VerticalAlignment="Bottom">
-							<GridSplitter HorizontalAlignment="Stretch" Foreground="LightSkyBlue" Height="1" Margin="0,0,0,5" VerticalAlignment="Top"/>
-							<StackPanel Orientation="Horizontal">
-								<Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-									<Rectangle.Fill>
-										<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_barcode}" />
-									</Rectangle.Fill>
-								</Rectangle>
-								<Label Content=" Copyright © 2018 " Foreground="White" Height = "30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-							</StackPanel>
-						</StackPanel>
-						
-					</Grid> 
-				</Grid>
 			
-				<Grid Grid.Column="1">
+				<Grid Grid.Column="0">
 
 					<Grid.RowDefinitions>
-                        <RowDefinition Height="400"/>
-                         <RowDefinition Height="5"/> 
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="65*"/>
+                         <RowDefinition Height="Auto"/> 
+                        <RowDefinition Height="35*" MinHeight="100" MaxHeight="500" />
                     </Grid.RowDefinitions>
 					
 					<Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -194,11 +133,115 @@
 
 						</controls:HamburgerMenu>
 					</Grid>
-                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FFBCBCBC"/>
+                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FFBCBCBC"
+					ShowsPreview="true"
+					ResizeDirection="Rows"
+					Height="5"
+					/>
 					<Grid Grid.Row="2">
 						<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="DarkCyan" ></StackPanel>
 					</Grid>
 				</Grid>
+
+				<Grid Grid.Column="1" Background="#3D3D3D">
+					
+					<Grid>
+						
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition Height="80"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  >
+							
+							<StackPanel Margin="5,0,5,5"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#1BA1E2 ">
+								<Label Content=" Project Files " Foreground="White" Height = "30" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+								<StackPanel x:Name="ProjectSources" Margin="0,0,0,0" Orientation="Vertical"  Background="#3D3D3D" >
+									<ScrollViewer Height="300">
+									<!-- The treeview will be used to list all the files of the project -->
+									<TreeView x:Name="TreeView" HorizontalAlignment="Left" 
+										Margin="10,20,10,20" Width="200"  Background="#3D3D3D">
+										<TreeView.Resources>
+											<Style TargetType="{x:Type TreeViewItem}">
+												<Setter Property="HeaderTemplate">
+													<Setter.Value>
+														<HierarchicalDataTemplate  >
+																<StackPanel Orientation="Horizontal">
+																<Image  Width="25" Height="25" Stretch="Fill"  
+																Source= "{Binding 
+																RelativeSource={RelativeSource 
+																Mode=FindAncestor, 
+																AncestorType={x:Type TreeViewItem}}, 
+																Path=Tag, 
+																Converter={sys:ObjectTagToImageConverter}}"      
+																/> 
+																<TextBlock Text="{Binding}" 
+																Margin="5,5" Foreground="#FFFFFF" />
+															</StackPanel>
+														</HierarchicalDataTemplate >
+													</Setter.Value>
+												</Setter>
+											</Style>
+										</TreeView.Resources> 
+									</TreeView>
+									</ScrollViewer>
+								</StackPanel>
+							</StackPanel>
+									
+
+							<!-- SNIPPETS -->
+							<StackPanel Margin="5,15,5,5" Orientation="Vertical" >
+								
+								<!-- GROUPS -->
+								<StackPanel Margin="0,4,0,0" Width="220" Background="#FFFFFF" HorizontalAlignment="Stretch" Orientation="Horizontal">
+									<StackPanel  Background="#2196f3" Height="40" Width="40" Orientation="Vertical">
+										<Rectangle Margin="2,10,0,0" Height="18" Width="16">
+											<Rectangle.Fill>
+												<VisualBrush Visual="{StaticResource appbar_page_multiple}" />
+											</Rectangle.Fill>
+										</Rectangle>
+									</StackPanel>
+									<StackPanel Width="170" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
+										<TextBlock Margin="0,3,0,0" HorizontalAlignment="Center" Text="15"    FontWeight="Bold" Foreground="#676767" FontSize="15"  ></TextBlock>
+										<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="FILES" Foreground="#676767" FontSize="9"></TextBlock>
+									</StackPanel>
+								</StackPanel>
+
+								<StackPanel Margin="0,4,0,0" Width="220" Background="#FFFFFF" HorizontalAlignment="Stretch" Orientation="Horizontal">
+									<StackPanel  Background="#79c879" Height="40" Width="40" Orientation="Vertical">
+										<Rectangle Margin="2,10,0,0" Height="18" Width="20">
+											<Rectangle.Fill>
+												<VisualBrush Visual="{StaticResource appbar_folder}" />
+											</Rectangle.Fill>
+										</Rectangle>
+									</StackPanel>
+									<StackPanel Width="170" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
+										<TextBlock Margin="0,3,0,0" HorizontalAlignment="Center" Text="2"    FontWeight="Bold" Foreground="#676767" FontSize="15"  ></TextBlock>
+										<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="FOLDERS" Foreground="#676767" FontSize="9"></TextBlock>
+									</StackPanel>
+								</StackPanel>
+								
+							</StackPanel>
+
+
+						</StackPanel>
+
+						<StackPanel Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5" VerticalAlignment="Bottom">
+										
+							<GridSplitter HorizontalAlignment="Stretch" Foreground="LightSkyBlue" Height="1" Margin="0,0,0,5" VerticalAlignment="Top"/>
+							<StackPanel Orientation="Horizontal">
+								<Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+									<Rectangle.Fill>
+										<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_barcode}" />
+									</Rectangle.Fill>
+								</Rectangle>
+								<Label Content=" Copyright © 2018" Foreground="White" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+							</StackPanel>
+						</StackPanel>
+						
+					</Grid> 
+				</Grid>
+
 
 			</Grid>
 
