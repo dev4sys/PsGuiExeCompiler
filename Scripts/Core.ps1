@@ -12,17 +12,23 @@ Function Main(){
         [String]$mainScript,
         [String]$outPutPath,
         [bool]$singleInstance,
-        [String]$projectDirectory
+        [String]$projectDirectory,
+        [String]$companyName,
+        [String]$version
     )
 
     $iRet = $False
 
     Write-Host "Starting process for $exeName  ... "
     Write-Host "Using as main script: $mainScript" 
+    Write-Host "Tool version: $version" 
 
     GenerateProjectStructure -CurrentProjectFolder $projectDirectory
     $retVal = GenerateDirectoryInf -CurrentProjectFolder $projectDirectory
+
     GenerateProgramCs -toolName $exeName -mainScript $mainScript -mutex $singleInstance -CurrentProjectFolder $projectDirectory
+    GenerateAssemblyInfoCs -toolName $exeName -companyName $companyName -version $version -CurrentProjectFolder $projectDirectory 
+    
     GenerateCSprojectFile -CurrentProjectFolder $projectDirectory
 
     If(!$retVal){
@@ -85,6 +91,31 @@ Function GenerateDirectoryInf(){
     }
 
     return $iRet
+
+}
+
+
+Function GenerateAssemblyInfoCs(){
+    # ====================== Description =====================================
+    # This function update the content of AssemblyInfo.cs before build
+    # ========================================================================
+
+    Param(
+        [String]$companyName,
+        [String]$toolName,
+        [String]$version,
+        [string]$CurrentProjectFolder
+    )
+
+    # Open and replace elements in the code from template
+    $AssemblyInfoCs     = Get-content ".\Tools\Template\Properties\AssemblyInfo.cs"
+    $TempFile           = $AssemblyInfoCs.Replace("%dev4sys%",$CompanyName)
+    $TempFile           = $TempFile.Replace("1.0.0.0",$version)
+    $AssemblyInfoCs     = $TempFile.Replace("%starter%",$toolName)
+
+    # Export result to the current project folder
+    $AssemblyInfoCs  | Set-Content "$CurrentProjectFolder\Properties\AssemblyInfo.cs"
+    $TempFile    = $null
 
 }
 
@@ -197,8 +228,11 @@ Function GenerateProjectStructure(){
             # suppose that if bin already exists do not create teh folder
             New-Item -path "$CurrentProjectFolder" -name "bin" -type directory -ErrorAction Stop | Out-null
             New-Item -path "$CurrentProjectFolder" -name "obj" -type directory -ErrorAction Stop | Out-null
+            New-Item -path "$CurrentProjectFolder" -name "Properties" -type directory -ErrorAction Stop | Out-null
         }
         Copy-Item -Path ".\Tools\Template\App.config" -Destination "$CurrentProjectFolder\App.config"
+        Copy-Item -Path ".\Tools\Template\Tool.ico" -Destination "$CurrentProjectFolder\Tool.ico"
+
         Write-Host "Successfully generated project structure."
     }
     Catch {

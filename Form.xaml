@@ -4,7 +4,7 @@
         xmlns:sys="clr-namespace:dev4sys.Tree;assembly=dev4sys.Tree" 
 		xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		Name="EXE_BUILDER" WindowStyle="None" AllowsTransparency="True"  
-		MinWidth="900" MinHeight="700"
+		MinWidth="900" MinHeight="650"
 		WindowStartupLocation="CenterScreen" >  
 
 	<Window.Resources>

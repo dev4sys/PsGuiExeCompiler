@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Management.Automation;
 using System.Threading;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Windows;
+using System.Windows.Forms;
 
 namespace starter
 {
@@ -162,7 +158,7 @@ namespace starter
             }
             else
             {
-                MessageBox.Show("Main script not found!");
+                System.Windows.Forms.MessageBox.Show("Main script not found!", _toolName , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
             }
         }
         
@@ -171,7 +167,8 @@ namespace starter
         {
 
             _namespaceName = Assembly.GetExecutingAssembly().GetName().Name;
-
+            System.Windows.Forms.Application.EnableVisualStyles();
+            
             // get the list of all processes by that name
             string procName = Process.GetCurrentProcess().ProcessName;
             Process[] processes = Process.GetProcessesByName(procName);
@@ -202,7 +199,7 @@ namespace starter
                 }
                 else
                 {
-                    MessageBox.Show("The application is already running.");
+                    System.Windows.Forms.MessageBox.Show("The application is already running.", _toolName, MessageBoxButtons.OK , MessageBoxIcon.Exclamation );
                 }
             }
             else

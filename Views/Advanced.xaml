@@ -17,13 +17,23 @@
         <StackPanel Margin="5,15,5,5" Orientation="Vertical">
             <GroupBox Header="Advanced Options" Margin="0,0,0,0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#1BA1E2 ">
                 <StackPanel  Orientation="Vertical" HorizontalAlignment="Stretch" Height="150" >
-
-                    <Label Content="Advanced operation such as execution folder and security to enable script obfuscation."> </Label>
+                    
+                    <TextBlock TextWrapping="Wrap" FontSize="15" Margin="5,5,5,10">
+                        Advanced operation such as execution folder and security to enable script obfuscation. 
+                    </TextBlock>
                     
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="EXECUTION PATH:" Width="120"/>
+                        <Label Content="EXECUTION PATH:" Width="150"/>
                         <TextBox x:Name="txtBoxPath" Text="USER/TEMP" Width="200" />
                         <Button x:Name="btnOutputPath" Content="Browse" Width="100" Margin="5,0,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="SYSTEM ARCHITECTURE:" Width="150"/>
+                        <ComboBox x:Name="comboArchi" Width="200" >
+                            <ComboBoxItem IsSelected="True">x64</ComboBoxItem>
+                            <ComboBoxItem>x86</ComboBoxItem>
+                        </ComboBox>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">

@@ -21,12 +21,12 @@
 					<!-- Release information -->
 
 					<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-						<Label Content="VERSION:" Width="120"/>
+						<Label Content="VERSION:" Width="150"/>
 						<TextBox x:Name="txtExeVersion" Width="200" Text="0.0.0" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-						<Label Content="COMPANY:" Width="120"/>
+						<Label Content="COMPANY:" Width="150"/>
 						<TextBox x:Name="txtBoxCompany" Width="200" Text="" />
 					</StackPanel>
 
