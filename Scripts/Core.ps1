@@ -107,6 +107,7 @@ Function GenerateAssemblyInfoCs(){
         [string]$CurrentProjectFolder
     )
 
+    Write-Host "Found the project structure. Constructing C# AssemblyInfo ... "
     # Open and replace elements in the code from template
     $AssemblyInfoCs     = Get-content ".\Tools\Template\Properties\AssemblyInfo.cs"
     $TempFile           = $AssemblyInfoCs.Replace("%dev4sys%",$CompanyName)

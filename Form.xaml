@@ -17,14 +17,6 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
-			<!-- override border shown onclick or hover textbox -->
-			<Style x:Key="CustomStyle" TargetType="TextBox">
-			   <Style.Triggers>
-				<Trigger Property="IsFocused" Value="True">
-				 <Setter Property="Background" Value="#E0E0E0" />
-				</Trigger>
-			   </Style.Triggers>
-			  </Style>
 		</ResourceDictionary>
     </Window.Resources>	
 	
@@ -40,7 +32,7 @@
 					<ContentControl Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
 					   <Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
 							<Rectangle.Fill>
-								<VisualBrush Stretch="Fill" Visual="{Binding Icon}" />
+								<VisualBrush Stretch="Uniform" Visual="{Binding Icon}" />
 							</Rectangle.Fill>
 						</Rectangle>
 					</ContentControl>
@@ -69,15 +61,13 @@
 					<ColumnDefinition  />
 					<ColumnDefinition Width="250"/>
 				</Grid.ColumnDefinitions>
-			
-
-			
+					
 				<Grid Grid.Column="0">
 
 					<Grid.RowDefinitions>
                         <RowDefinition Height="65*"/>
-                         <RowDefinition Height="Auto"/> 
-                        <RowDefinition Height="35*" MinHeight="100" MaxHeight="500" />
+                        <RowDefinition Height="Auto"/> 
+                        <RowDefinition Height="35*" MinHeight="150"  />
                     </Grid.RowDefinitions>
 					
 					<Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -94,21 +84,21 @@
 							<controls:HamburgerMenu.ItemsSource>
 							
 								<controls:HamburgerMenuItemCollection>
-									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_people_status }"
+									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_cog }"
 																	Label="Configuration">
 										<controls:HamburgerMenuIconItem.Tag>
 											<Grid x:Name="ConfigurationView"></Grid>
 										</controls:HamburgerMenuIconItem.Tag>
 									</controls:HamburgerMenuIconItem>
 									
-									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_monitor}"
+									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_resource_group}"
 																	Label="Advanced">
 										<controls:HamburgerMenuIconItem.Tag>
 											<Grid x:Name="AdvancedView"></Grid>
 										</controls:HamburgerMenuIconItem.Tag>
 									</controls:HamburgerMenuIconItem>
 
-									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_graph_line}"
+									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_source_fork}"
 																	Label="Version">
 										<controls:HamburgerMenuIconItem.Tag>
 											<Grid x:Name="VersioningView"></Grid>
@@ -134,12 +124,55 @@
 						</controls:HamburgerMenu>
 					</Grid>
                     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FFBCBCBC"
-					ShowsPreview="true"
-					ResizeDirection="Rows"
-					Height="5"
+						ShowsPreview="false" ResizeDirection="Rows" Height="5"
 					/>
-					<Grid Grid.Row="2">
-						<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="DarkCyan" ></StackPanel>
+					<Grid Grid.Row="2" >
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="40"/>
+							<RowDefinition Height="*"/> 
+						</Grid.RowDefinitions>
+
+							<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="#FF444444" >
+
+								<Button x:Name="TargetBuild"   Style="{StaticResource AccentedSquareButtonStyle}"
+									Height="30" Width="75" Cursor="Hand" HorizontalContentAlignment="Stretch"
+									VerticalContentAlignment="Stretch" HorizontalAlignment="Center" VerticalAlignment="Center" 
+									BorderThickness="0" Margin="8,0,4,0">
+
+									<StackPanel Orientation="Horizontal" >
+										<Rectangle Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
+											Fill="white" Margin="4,0">
+											<Rectangle.OpacityMask>
+												<VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_brick}"/>
+											</Rectangle.OpacityMask>
+										</Rectangle>
+										<TextBlock Margin="5,2,2,2" Foreground="#FFFFFF"> Build </TextBlock>
+									</StackPanel>
+
+								</Button>
+
+								<Button x:Name="TargetClean"  Style="{StaticResource AccentedSquareButtonStyle}"
+									Height="30" Width="75" Cursor="Hand" HorizontalContentAlignment="Stretch" 
+									VerticalContentAlignment="Stretch" HorizontalAlignment="Center" VerticalAlignment="Center" 
+									BorderThickness="0" Margin="0,0,4,0">
+									<StackPanel Orientation="Horizontal">
+										<Rectangle Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
+											Fill="white" Margin="4,0">
+											<Rectangle.OpacityMask>
+												<VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_reset}"/>
+											</Rectangle.OpacityMask>
+										</Rectangle>
+										<TextBlock Margin="5,2,2,2" Foreground="#FFFFFF"> Clean </TextBlock>
+									</StackPanel>
+								</Button>
+							
+							</StackPanel>
+
+							<StackPanel Grid.Row="1" Background="DarkCyan" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+							
+							</StackPanel>
+						
 					</Grid>
 				</Grid>
 
@@ -149,7 +182,7 @@
 						
 						<Grid.RowDefinitions>
 							<RowDefinition />
-							<RowDefinition Height="80"/>
+							<RowDefinition Height="170"/>
 						</Grid.RowDefinitions>
 
 						<StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  >
@@ -157,41 +190,43 @@
 							<StackPanel Margin="5,0,5,5"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#1BA1E2 ">
 								<Label Content=" Project Files " Foreground="White" Height = "30" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 								<StackPanel x:Name="ProjectSources" Margin="0,0,0,0" Orientation="Vertical"  Background="#3D3D3D" >
-									<ScrollViewer Height="300">
-									<!-- The treeview will be used to list all the files of the project -->
-									<TreeView x:Name="TreeView" HorizontalAlignment="Left" 
-										Margin="10,20,10,20" Width="200"  Background="#3D3D3D">
-										<TreeView.Resources>
-											<Style TargetType="{x:Type TreeViewItem}">
-												<Setter Property="HeaderTemplate">
-													<Setter.Value>
-														<HierarchicalDataTemplate  >
-																<StackPanel Orientation="Horizontal">
-																<Image  Width="25" Height="25" Stretch="Fill"  
-																Source= "{Binding 
-																RelativeSource={RelativeSource 
-																Mode=FindAncestor, 
-																AncestorType={x:Type TreeViewItem}}, 
-																Path=Tag, 
-																Converter={sys:ObjectTagToImageConverter}}"      
-																/> 
-																<TextBlock Text="{Binding}" 
-																Margin="5,5" Foreground="#FFFFFF" />
-															</StackPanel>
-														</HierarchicalDataTemplate >
-													</Setter.Value>
-												</Setter>
-											</Style>
-										</TreeView.Resources> 
-									</TreeView>
+									<ScrollViewer Height="350">
+										<!-- The treeview will be used to list all the files of the project -->
+										<TreeView x:Name="TreeView" HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+											Margin="10,20,10,20" Width="200"  Background="#3D3D3D">
+											<TreeView.Resources>
+												<Style TargetType="{x:Type TreeViewItem}">
+													<Setter Property="HeaderTemplate">
+														<Setter.Value>
+															<HierarchicalDataTemplate  >
+																	<StackPanel Orientation="Horizontal">
+																	<Image  Width="25" Height="25" Stretch="Fill"  
+																	Source= "{Binding 
+																	RelativeSource={RelativeSource 
+																	Mode=FindAncestor, 
+																	AncestorType={x:Type TreeViewItem}}, 
+																	Path=Tag, 
+																	Converter={sys:ObjectTagToImageConverter}}"      
+																	/> 
+																	<TextBlock Text="{Binding}" 
+																	Margin="5,5" Foreground="#FFFFFF" />
+																</StackPanel>
+															</HierarchicalDataTemplate >
+														</Setter.Value>
+													</Setter>
+												</Style>
+											</TreeView.Resources> 
+										</TreeView>
 									</ScrollViewer>
 								</StackPanel>
 							</StackPanel>
-									
+								
+						</StackPanel>
+
+						<StackPanel Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5" VerticalAlignment="Bottom">
 
 							<!-- SNIPPETS -->
-							<StackPanel Margin="5,15,5,5" Orientation="Vertical" >
-								
+							<StackPanel Margin="5,5,5,18" Orientation="Vertical" >
 								<!-- GROUPS -->
 								<StackPanel Margin="0,4,0,0" Width="220" Background="#FFFFFF" HorizontalAlignment="Stretch" Orientation="Horizontal">
 									<StackPanel  Background="#2196f3" Height="40" Width="40" Orientation="Vertical">
@@ -220,14 +255,8 @@
 										<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="FOLDERS" Foreground="#676767" FontSize="9"></TextBlock>
 									</StackPanel>
 								</StackPanel>
-								
 							</StackPanel>
 
-
-						</StackPanel>
-
-						<StackPanel Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5" VerticalAlignment="Bottom">
-										
 							<GridSplitter HorizontalAlignment="Stretch" Foreground="LightSkyBlue" Height="1" Margin="0,0,0,5" VerticalAlignment="Top"/>
 							<StackPanel Orientation="Horizontal">
 								<Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -237,6 +266,7 @@
 								</Rectangle>
 								<Label Content=" Copyright © 2018" Foreground="White" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 							</StackPanel>
+
 						</StackPanel>
 						
 					</Grid> 
