@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+		    </ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
     </Window.Resources>	
 	
@@ -52,8 +52,18 @@
 				<RowDefinition />
 			</Grid.RowDefinitions>
 
-			<Border Grid.Row="0" Background="#FF444444">
-			</Border>
+			<Menu Grid.Row="0" Background="#FF444444">
+				<MenuItem Header="Project" Background="#FF444444" Foreground="#FFFFFF">
+					<MenuItem  Header="New" 
+						Background="#FF444444" Foreground="#FFFFFF"
+						IsCheckable="True" IsChecked="True" />
+					<MenuItem  Header="Save" 
+						Background="#FF444444" Foreground="#FFFFFF"
+						IsCheckable="True" IsChecked="False" />
+				</MenuItem>
+				<MenuItem Header="Help" Background="#FF444444" Foreground="#FFFFFF">
+				</MenuItem>
+			</Menu>
 			
 			<Grid Grid.Row="1">
 
@@ -134,7 +144,25 @@
 						</Grid.RowDefinitions>
 
 							<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="#FF444444" >
+			
+								<Button x:Name="CreateProject"   Style="{StaticResource AccentedSquareButtonStyle}"
+									Height="30" Width="75" Cursor="Hand" HorizontalContentAlignment="Stretch"
+									VerticalContentAlignment="Stretch" HorizontalAlignment="Center" VerticalAlignment="Center" 
+									BorderThickness="0" Margin="8,0,4,0">
 
+									<StackPanel Orientation="Horizontal" >
+										<Rectangle Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
+											Fill="white" Margin="4,0">
+											<Rectangle.OpacityMask>
+												<VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_cabinet_files_variant}"/>
+											</Rectangle.OpacityMask>
+										</Rectangle>
+										<TextBlock Margin="5,2,2,2" Foreground="#FFFFFF"> Build </TextBlock>
+									</StackPanel>
+
+								</Button>
+			
+			
 								<Button x:Name="TargetBuild"   Style="{StaticResource AccentedSquareButtonStyle}"
 									Height="30" Width="75" Cursor="Hand" HorizontalContentAlignment="Stretch"
 									VerticalContentAlignment="Stretch" HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -170,7 +198,10 @@
 							</StackPanel>
 
 							<StackPanel Grid.Row="1" Background="DarkCyan" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-							
+								
+								<TextBlock x:Name="ConsoleOutput" TextWrapping="Wrap" FontSize="15" Margin="5,5,5,5">
+								</TextBlock>
+
 							</StackPanel>
 						
 					</Grid>
@@ -227,6 +258,7 @@
 
 							<!-- SNIPPETS -->
 							<StackPanel Margin="5,5,5,18" Orientation="Vertical" >
+							
 								<!-- GROUPS -->
 								<StackPanel Margin="0,4,0,0" Width="220" Background="#FFFFFF" HorizontalAlignment="Stretch" Orientation="Horizontal">
 									<StackPanel  Background="#2196f3" Height="40" Width="40" Orientation="Vertical">
@@ -264,7 +296,7 @@
 										<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_barcode}" />
 									</Rectangle.Fill>
 								</Rectangle>
-								<Label Content=" Copyright © 2018" Foreground="White" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+								<Label Content=" Copyright © 2020" Foreground="White" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 							</StackPanel>
 
 						</StackPanel>

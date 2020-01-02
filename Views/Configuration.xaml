@@ -15,19 +15,31 @@
 
 						<TextBlock TextWrapping="Wrap" FontSize="15" Margin="5,5,5,10">Basic options of the exe</TextBlock>
 
+
 						<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-							<Label Content="OUTPUT PATH:" Width="130"/>
+							<Label Content="YOUR PROJECT:" Width="200"/>
+							<TextBox x:Name="ConfUserProjectPath" Width="200" Text="" />
+							<Button x:Name="ConfBtnUserPsPath" Content="Browse" Width="80" Margin="5,0,0,0"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+							<Label Content="OUTPUT PATH:" Width="200"/>
 							<TextBox x:Name="ConfTxtBoxPath" Width="200" Text="" />
 							<Button x:Name="ConfBtnPath" Content="Browse" Width="80" Margin="5,0,0,0"/>
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-							<Label Content="EXE NAME:" Width="130"/>
+							<Label Content="EXE NAME:" Width="200"/>
 							<TextBox x:Name="ConfExeName" Width="200" Text="" />
 						</StackPanel>
 
+						<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+							<Label Content="MAIN PS1:" Width="200"/>
+							<TextBox x:Name="ConfPs1Name" Width="200" Text="" />
+						</StackPanel>
+
 						<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-							<Label Content="SINGLE INSTANCE:" Width="130"/>
+							<Label Content="SINGLE INSTANCE (only one exe running):" Width="200"/>
 							<Controls:ToggleSwitch x:Name="ConfSingleInstance"
                                    Margin="0,3,5,0"
                                    IsChecked="True"

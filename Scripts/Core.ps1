@@ -4,63 +4,30 @@
 ##############################
 
 
-
-Function Main(){
-    
-    Param(
-        [String]$exeName,
-        [String]$mainScript,
-        [String]$outPutPath,
-        [bool]$singleInstance,
-        [String]$projectDirectory,
-        [String]$companyName,
-        [String]$version
-    )
-
-    $iRet = $False
-
-    Write-Host "Starting process for $exeName  ... "
-    Write-Host "Using as main script: $mainScript" 
-    Write-Host "Tool version: $version" 
-
-    GenerateProjectStructure -CurrentProjectFolder $projectDirectory
-    $retVal = GenerateDirectoryInf -CurrentProjectFolder $projectDirectory
-
-    GenerateProgramCs -toolName $exeName -mainScript $mainScript -mutex $singleInstance -CurrentProjectFolder $projectDirectory
-    GenerateAssemblyInfoCs -toolName $exeName -companyName $companyName -version $version -CurrentProjectFolder $projectDirectory 
-    
-    GenerateCSprojectFile -CurrentProjectFolder $projectDirectory
-
-    If(!$retVal){
-        Write-Host "An error ocurred while processing your application files."
-    }
-
-    Write-Host "Ending process"
-
-    # return the status of the exexcution
-    return $iRet
-}
-
 Function Run(){
      
-     Param(
-     [String]$action
-     )
+    Param(
+    [String]$action,
+    [String]$projectPath
+    )
 
-
+    $MsBuildDotNet = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
+    $csproj = "$projectPath\starter.csproj"
     Switch ($action)
     {
         "Build" { 
-       
-           # $cmdLine =  ".\MSBuild\15.0\Bin\MSBuild.exe .\Socle\starter.csproj /target:Build /tv:4.0"
-       
+        $arguments =  "$csproj /target:Build /tv:4.0"
         }
         "Clean" { 
-
-           # $cmdLine =  ".\MSBuild\15.0\Bin\MSBuild.exe .\Socle\starter.csproj /target:Clean"
-       
+        $arguments =  "$csproj /target:Clean"
         }
     }   
+
+    Write-Host $MsBuildDotNet
+    Write-Host $arguments
+
+    Start-Process $MsBuildDotNet $arguments -NoNewWindow -Wait
+
 
 }
 
