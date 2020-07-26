@@ -1,8 +1,9 @@
-﻿<controls:MetroWindow
+﻿<Controls:MetroWindow
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:dev4sys.Tree;assembly=dev4sys.Tree" 
-		xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+		xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+		xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		Name="EXE_BUILDER" WindowStyle="None" AllowsTransparency="True"  
 		MinWidth="900" MinHeight="650"
 		WindowStartupLocation="CenterScreen" >  
@@ -10,39 +11,61 @@
 	<Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Images\Resources\Icons.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-		    </ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
     </Window.Resources>	
 	
 	<Grid>
 
         <Grid.Resources>
-            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuIconItem}">
-                <Grid Height="48">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-					<ContentControl Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-					   <Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-							<Rectangle.Fill>
-								<VisualBrush Stretch="Uniform" Visual="{Binding Icon}" />
-							</Rectangle.Fill>
-						</Rectangle>
-					</ContentControl>
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               Foreground="White"
-                               Text="{Binding Label}" />
-                </Grid>
-            </DataTemplate>
+
+			<!--  This is the template for all menu items  -->
+			<DataTemplate x:Key="HamburgerMenuItem" DataType="{x:Type Controls:HamburgerMenuIconItem}">
+			  <DockPanel Height="48" LastChildFill="True">
+				<ContentControl x:Name="IconPart"
+								Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=CompactPaneLength}"
+								Content="{Binding Icon}"
+								DockPanel.Dock="Left"
+								Focusable="False"
+								IsTabStop="False" />
+				<TextBlock x:Name="TextPart"
+						   VerticalAlignment="Center"
+						   FontSize="16"
+						   Text="{Binding Label}" />
+			  </DockPanel>
+			  <DataTemplate.Triggers>
+				<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=PanePlacement}" Value="Right">
+				  <Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
+				  <Setter TargetName="TextPart" Property="Margin" Value="8 0 0 0" />
+				</DataTrigger>
+			  </DataTemplate.Triggers>
+			</DataTemplate>
+			
+			<!--  This is the template for the option menu item  -->
+			<DataTemplate x:Key="HamburgerOptionsMenuItem" DataType="{x:Type Controls:HamburgerMenuIconItem}">
+			  <DockPanel Height="48" LastChildFill="True">
+				<ContentControl x:Name="IconPart"
+								Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=CompactPaneLength}"
+								Content="{Binding Icon}"
+								DockPanel.Dock="Left"
+								Focusable="False"
+								IsTabStop="False" />
+				<TextBlock x:Name="TextPart"
+						   VerticalAlignment="Center"
+						   FontSize="16"
+						   Text="{Binding Label}" />
+			  </DockPanel>
+			  <DataTemplate.Triggers>
+				<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:HamburgerMenu}}, Path=PanePlacement}" Value="Right">
+				  <Setter TargetName="IconPart" Property="DockPanel.Dock" Value="Right" />
+				  <Setter TargetName="TextPart" Property="Margin" Value="8 0 0 0" />
+				</DataTrigger>
+			  </DataTemplate.Triggers>
+			</DataTemplate>
+			  
         </Grid.Resources>
         			
 		<Grid >
@@ -81,58 +104,92 @@
                     </Grid.RowDefinitions>
 					
 					<Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-						<controls:HamburgerMenu 
-								x:Name="HamburgerMenuControl"
-								Foreground="White"
-								PaneBackground="#FF444444"
-								IsPaneOpen="False"
-								ItemTemplate="{StaticResource MenuItemTemplate}"
-								DisplayMode="CompactInline"
-								>
+						<Controls:HamburgerMenu x:Name="HamburgerMenuControl"
+							DisplayMode="CompactOverlay"
+							HamburgerWidth="48"
+							ItemTemplate="{StaticResource HamburgerMenuItem}"
+							OptionsItemTemplate="{StaticResource HamburgerOptionsMenuItem}"
+							SelectedIndex="0"
+							IsPaneOpen="False"
+							VerticalScrollBarOnLeftSide="False"
+							>
 							
 							<!--  Items  -->
-							<controls:HamburgerMenu.ItemsSource>
+							<Controls:HamburgerMenu.ItemsSource>
 							
-								<controls:HamburgerMenuItemCollection>
-									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_cog }"
-																	Label="Configuration">
-										<controls:HamburgerMenuIconItem.Tag>
+								<Controls:HamburgerMenuItemCollection>
+									<Controls:HamburgerMenuIconItem Label="Configuration">
+										<Controls:HamburgerMenuIconItem.Icon>
+											<iconPacks:PackIconMaterialDesign Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+											Kind="home" />
+										</Controls:HamburgerMenuIconItem.Icon>
+										<Controls:HamburgerMenuIconItem.Tag>
 											<Grid x:Name="ConfigurationView"></Grid>
-										</controls:HamburgerMenuIconItem.Tag>
-									</controls:HamburgerMenuIconItem>
+										</Controls:HamburgerMenuIconItem.Tag>
+									</Controls:HamburgerMenuIconItem>
 									
-									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_resource_group}"
-																	Label="Advanced">
-										<controls:HamburgerMenuIconItem.Tag>
+									<Controls:HamburgerMenuIconItem Label="Advanced">
+										<Controls:HamburgerMenuIconItem.Icon>
+											<iconPacks:PackIconMaterialDesign Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+											Kind="person" />						
+										</Controls:HamburgerMenuIconItem.Icon>
+										<Controls:HamburgerMenuIconItem.Tag>
 											<Grid x:Name="AdvancedView"></Grid>
-										</controls:HamburgerMenuIconItem.Tag>
-									</controls:HamburgerMenuIconItem>
+										</Controls:HamburgerMenuIconItem.Tag>
+									</Controls:HamburgerMenuIconItem>
 
-									<controls:HamburgerMenuIconItem Icon="{StaticResource appbar_source_fork}"
-																	Label="Version">
-										<controls:HamburgerMenuIconItem.Tag>
+									<Controls:HamburgerMenuIconItem Label="Version">
+										<Controls:HamburgerMenuIconItem.Icon>
+											<iconPacks:PackIconMaterialDesign Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+											Kind="settings" />						
+										</Controls:HamburgerMenuIconItem.Icon>
+										<Controls:HamburgerMenuIconItem.Tag>
 											<Grid x:Name="VersioningView"></Grid>
-										</controls:HamburgerMenuIconItem.Tag>
-									</controls:HamburgerMenuIconItem>
+										</Controls:HamburgerMenuIconItem.Tag>
+									</Controls:HamburgerMenuIconItem>
 
-								</controls:HamburgerMenuItemCollection>
+								</Controls:HamburgerMenuItemCollection>
 								
-							</controls:HamburgerMenu.ItemsSource>
+							</Controls:HamburgerMenu.ItemsSource>
 
 							<!--  Content  -->
-							<controls:HamburgerMenu.ContentTemplate>
-								<DataTemplate DataType="{x:Type controls:HamburgerMenuItem}">
-									<Grid x:Name="TheContentGrid">
-										<ContentControl x:Name="TheContent"
-											Focusable="False"
-											Foreground="{DynamicResource BlackBrush}"
-											Content="{Binding Tag}" />
+							<Controls:HamburgerMenu.ContentTemplate>
+								<DataTemplate>
+									<Grid x:Name="ContentGrid">
+										<Grid.RowDefinitions>
+											<RowDefinition Height="48" />
+											<RowDefinition />
+										</Grid.RowDefinitions>
+										<Border Grid.Row="0" Margin="-1 0 -1 0" Background="#7A7A7A">
+											<TextBlock x:Name="Header"
+											   HorizontalAlignment="Center"
+											   VerticalAlignment="Center"
+											   FontSize="24"
+											   Foreground="White"
+											   Text="{Binding Label}" />
+										</Border>
+										<Controls:TransitioningContentControl Grid.Row="1"
+												Content="{Binding}"
+												RestartTransitionOnContentChange="True"
+												Transition="Default">
+
+											<Controls:TransitioningContentControl.Resources>
+												<DataTemplate DataType="{x:Type Controls:HamburgerMenuIconItem}">
+													<ContentControl Content="{Binding Tag, Mode=OneWay}"
+														  Focusable="True"
+														  IsTabStop="False" />
+												</DataTemplate>
+											</Controls:TransitioningContentControl.Resources>
+
+										</Controls:TransitioningContentControl>
 									</Grid>
 								</DataTemplate>
-							</controls:HamburgerMenu.ContentTemplate>
+							</Controls:HamburgerMenu.ContentTemplate>
 
-						</controls:HamburgerMenu>
+						</Controls:HamburgerMenu>
 					</Grid>
+					
+					
                     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FFBCBCBC"
 						ShowsPreview="false" ResizeDirection="Rows" Height="5"
 					/>
@@ -145,55 +202,43 @@
 
 							<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="#FF444444" >
 			
-								<Button x:Name="CreateProject"   Style="{StaticResource AccentedSquareButtonStyle}"
+								<Button x:Name="CreateProject"   Style="{StaticResource MahApps.Styles.Button.Square.Accent}"
 									Height="30" Width="75" Cursor="Hand" HorizontalContentAlignment="Stretch"
 									VerticalContentAlignment="Stretch" HorizontalAlignment="Center" VerticalAlignment="Center" 
 									BorderThickness="0" Margin="8,0,4,0">
 
 									<StackPanel Orientation="Horizontal" >
-										<Rectangle Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
-											Fill="white" Margin="4,0">
-											<Rectangle.OpacityMask>
-												<VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_cabinet_files_variant}"/>
-											</Rectangle.OpacityMask>
-										</Rectangle>
+										<iconPacks:PackIconMaterialDesign Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+											Kind="build" />
 										<TextBlock Margin="5,2,2,2" Foreground="#FFFFFF"> Build </TextBlock>
 									</StackPanel>
 
 								</Button>
 			
 			
-								<Button x:Name="TargetBuild"   Style="{StaticResource AccentedSquareButtonStyle}"
+								<Button x:Name="TargetBuild"   Style="{StaticResource MahApps.Styles.Button.Square.Accent}"
 									Height="30" Width="75" Cursor="Hand" HorizontalContentAlignment="Stretch"
 									VerticalContentAlignment="Stretch" HorizontalAlignment="Center" VerticalAlignment="Center" 
 									BorderThickness="0" Margin="8,0,4,0">
 
 									<StackPanel Orientation="Horizontal" >
-										<Rectangle Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
-											Fill="white" Margin="4,0">
-											<Rectangle.OpacityMask>
-												<VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_brick}"/>
-											</Rectangle.OpacityMask>
-										</Rectangle>
+										<iconPacks:PackIconMaterialDesign Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+											Kind="settings" />
 										<TextBlock Margin="5,2,2,2" Foreground="#FFFFFF"> Build </TextBlock>
 									</StackPanel>
 
 								</Button>
 
-								<Button x:Name="TargetClean"  Style="{StaticResource AccentedSquareButtonStyle}"
+								<Button x:Name="TargetClean"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}"
 									Height="30" Width="75" Cursor="Hand" HorizontalContentAlignment="Stretch" 
 									VerticalContentAlignment="Stretch" HorizontalAlignment="Center" VerticalAlignment="Center" 
 									BorderThickness="0" Margin="0,0,4,0">
 									<StackPanel Orientation="Horizontal">
-										<Rectangle Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
-											Fill="white" Margin="4,0">
-											<Rectangle.OpacityMask>
-												<VisualBrush  Stretch="Fill" Visual="{StaticResource appbar_reset}"/>
-											</Rectangle.OpacityMask>
-										</Rectangle>
+										<iconPacks:PackIconMaterialDesign Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+											Kind="refresh" />
 										<TextBlock Margin="5,2,2,2" Foreground="#FFFFFF"> Clean </TextBlock>
 									</StackPanel>
-								</Button>
+								</Button>  
 							
 							</StackPanel>
 
@@ -222,7 +267,7 @@
 								<Label Content=" Project Files " Foreground="White" Height = "30" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 								<StackPanel x:Name="ProjectSources" Margin="0,0,0,0" Orientation="Vertical"  Background="#3D3D3D" >
 									<ScrollViewer Height="350">
-										<!-- The treeview will be used to list all the files of the project -->
+										<!-- The treeview will be used to list all the files of the project  -->
 										<TreeView x:Name="TreeView" HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 											Margin="10,20,10,20" Width="200"  Background="#3D3D3D">
 											<TreeView.Resources>
@@ -250,7 +295,7 @@
 										</TreeView>
 									</ScrollViewer>
 								</StackPanel>
-							</StackPanel>
+							</StackPanel> 
 								
 						</StackPanel>
 
@@ -262,11 +307,8 @@
 								<!-- GROUPS -->
 								<StackPanel Margin="0,4,0,0" Width="220" Background="#FFFFFF" HorizontalAlignment="Stretch" Orientation="Horizontal">
 									<StackPanel  Background="#2196f3" Height="40" Width="40" Orientation="Vertical">
-										<Rectangle Margin="2,10,0,0" Height="18" Width="16">
-											<Rectangle.Fill>
-												<VisualBrush Visual="{StaticResource appbar_page_multiple}" />
-											</Rectangle.Fill>
-										</Rectangle>
+										<iconPacks:PackIconMaterialDesign Margin="2,10,0,0" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"
+											Kind="description" Foreground="White" />
 									</StackPanel>
 									<StackPanel Width="170" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
 										<TextBlock Margin="0,3,0,0" HorizontalAlignment="Center" Text="15"    FontWeight="Bold" Foreground="#676767" FontSize="15"  ></TextBlock>
@@ -276,28 +318,22 @@
 
 								<StackPanel Margin="0,4,0,0" Width="220" Background="#FFFFFF" HorizontalAlignment="Stretch" Orientation="Horizontal">
 									<StackPanel  Background="#79c879" Height="40" Width="40" Orientation="Vertical">
-										<Rectangle Margin="2,10,0,0" Height="18" Width="20">
-											<Rectangle.Fill>
-												<VisualBrush Visual="{StaticResource appbar_folder}" />
-											</Rectangle.Fill>
-										</Rectangle>
+										<iconPacks:PackIconMaterialDesign Margin="2,10,0,0" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"
+											Kind="folder" Foreground="White"/>
 									</StackPanel>
 									<StackPanel Width="170" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
 										<TextBlock Margin="0,3,0,0" HorizontalAlignment="Center" Text="2"    FontWeight="Bold" Foreground="#676767" FontSize="15"  ></TextBlock>
 										<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="FOLDERS" Foreground="#676767" FontSize="9"></TextBlock>
 									</StackPanel>
-								</StackPanel>
+								</StackPanel> 
 							</StackPanel>
 
 							<GridSplitter HorizontalAlignment="Stretch" Foreground="LightSkyBlue" Height="1" Margin="0,0,0,5" VerticalAlignment="Top"/>
 							<StackPanel Orientation="Horizontal">
-								<Rectangle Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-									<Rectangle.Fill>
-										<VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_barcode}" />
-									</Rectangle.Fill>
-								</Rectangle>
+								<iconPacks:PackIconMaterialDesign Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"
+								Kind="reorder" Foreground="White"/>
 								<Label Content=" Copyright © 2020" Foreground="White" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-							</StackPanel>
+							</StackPanel> 
 
 						</StackPanel>
 						
@@ -311,4 +347,4 @@
     
 	</Grid>
 	
-</controls:MetroWindow>
+</Controls:MetroWindow>
